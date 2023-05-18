@@ -19,4 +19,5 @@ public class Folder {
     private Long id;
 
     private String title;
+
 }
