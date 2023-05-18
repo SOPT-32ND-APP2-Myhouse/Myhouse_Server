@@ -26,7 +26,7 @@ public enum SuccessStatus {
     post
      */
     GET_RECOMMEND_POST_SUCCESS(HttpStatus.ACCEPTED, "추천 게시글 조회에 성공하였습니다"),
-
+    GET_OVERALL_POSTS_SUCCESS(HttpStatus.ACCEPTED, "모든 게시물 조회에 성공하였습니다."),
     /*
     product
      */

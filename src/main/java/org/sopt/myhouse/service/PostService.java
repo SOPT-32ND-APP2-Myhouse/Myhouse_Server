@@ -7,10 +7,12 @@ import org.sopt.myhouse.repository.ImageRepository;
 import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.repository.ScrapRepository;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
+import org.sopt.myhouse.service.dto.response.PostListResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 
 @Service
@@ -38,4 +40,14 @@ public class PostService {
 
     }
 
+    //post 둘러보기
+    public List<PostListResponseDto> getOverview(){
+        List<PostListResponseDto> responseDtos = new ArrayList<>();
+        List<Post> posts = postRepository.getAll();
+        for(Post post:posts){
+            PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
+            responseDtos.add(responseDto);
+        }
+        return responseDtos;
+    }
 }
