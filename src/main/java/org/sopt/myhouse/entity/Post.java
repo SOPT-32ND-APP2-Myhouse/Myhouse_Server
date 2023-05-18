@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -14,8 +15,8 @@ import java.util.Date;
 @Getter
 @Entity
 public class Post {
-    @Id @GeneratedValue
-    private Long post_id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String thumbnail;
     private String title;
     private String post_category;
@@ -26,6 +27,5 @@ public class Post {
     private Long scrap_count;
     private Long views_count;
     private Long comment_count;
-
 
 }
