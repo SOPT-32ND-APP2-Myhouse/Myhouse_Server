@@ -25,8 +25,13 @@ public enum SuccessStatus {
     /*
     post
      */
-    GET_RECOMMEND_POST_SUCCESS(HttpStatus.ACCEPTED, "추천 게시글 조회에 성공하였습니다");
+    GET_RECOMMEND_POST_SUCCESS(HttpStatus.ACCEPTED, "추천 게시글 조회에 성공하였습니다"),
 
+    /*
+    product
+     */
+
+    GET_RANK_PRODUCT(HttpStatus.ACCEPTED, "베스트 상품 조회에 성공하였습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }

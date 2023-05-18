@@ -1,4 +1,4 @@
-package org.sopt.myhouse.service.dto;
+package org.sopt.myhouse.service.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
