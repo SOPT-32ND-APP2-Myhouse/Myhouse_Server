@@ -6,9 +6,24 @@ import org.sopt.myhouse.entity.Post;
 import org.sopt.myhouse.entity.Product;
 import org.sopt.myhouse.entity.Scrap;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface ScrapRepository extends Repository<Scrap, Long> {
     Scrap save(Scrap scrap);
+
+    Optional<Long> findById(Long scrap_id);
+    Long deleteById(Long scrap_id);
+
+    // 엔티티 변수명 바꿔야댐
+    @Query("select s from Scrap s join fetch s.folder_id join fetch s.image_id")
+    ArrayList<Scrap> getAllScrap();
+
+    List<Scrap> findAll();
 
 }

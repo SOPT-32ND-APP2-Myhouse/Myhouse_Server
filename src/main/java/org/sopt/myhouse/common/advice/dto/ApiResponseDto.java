@@ -14,7 +14,8 @@ import org.sopt.myhouse.exception.SuccessStatus;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponseDto<T> {
 
-    private final int code;
+    private final int status;
+    private boolean success;
     private final String message;
     private T data;
 
@@ -23,10 +24,12 @@ public class ApiResponseDto<T> {
     }
 
     public static <T> ApiResponseDto<T> success(SuccessStatus successStatus, T data) {
-        return new ApiResponseDto<T>(successStatus.getHttpStatus().value(), successStatus.getMessage(), data);
+        return new ApiResponseDto<T>(successStatus.getHttpStatus().value(), true, successStatus.getMessage(), data);
     }
 
     public static ApiResponseDto error(ErrorStatus errorStatus) {
         return new ApiResponseDto<>(errorStatus.getHttpStatus().value(), errorStatus.getMessage());
     }
+
+
 }
