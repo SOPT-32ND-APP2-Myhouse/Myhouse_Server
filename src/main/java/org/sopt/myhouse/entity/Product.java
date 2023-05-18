@@ -20,8 +20,9 @@ public class Product {
     private String image_url;
     private String brand;
     private String post_title;
+    private double rate;
     private Long discount;
     private String title;
     private Long price;
-
+    private Long reviews_count;
 }

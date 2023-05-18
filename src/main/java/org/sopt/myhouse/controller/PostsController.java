@@ -31,4 +31,6 @@ public class PostsController {
         }
         return ApiResponseDto.success(SuccessStatus.GET_POST_DETAIL_SUCCESS, getPostDetailDto);
     }
+
+
 }

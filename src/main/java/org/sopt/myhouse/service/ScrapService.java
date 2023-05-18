@@ -3,7 +3,7 @@ package org.sopt.myhouse.service;
 import lombok.RequiredArgsConstructor;
 import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.repository.*;
-import org.sopt.myhouse.service.dto.ScrapSaveServiceDto;
+import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

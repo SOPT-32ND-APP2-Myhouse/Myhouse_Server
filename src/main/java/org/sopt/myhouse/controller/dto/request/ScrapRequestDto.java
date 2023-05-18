@@ -3,7 +3,7 @@ package org.sopt.myhouse.controller.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sopt.myhouse.service.dto.ScrapSaveServiceDto;
+import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 
 @Getter
 @NoArgsConstructor
