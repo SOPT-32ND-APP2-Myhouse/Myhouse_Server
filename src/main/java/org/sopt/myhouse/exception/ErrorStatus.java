@@ -18,11 +18,9 @@ public enum ErrorStatus {
 
 
     /*
-    CONFLICT
+    409 CONFLICT
      */
-//    CONFLICT_EMAIL_EXCEPTION(HttpStatus.CONFLICT, "이미 등록된 이메일입니다."),
-//    CONFLICT_NICKNAME_EXCEPTION(HttpStatus.CONFLICT, "이미 등록된 닉네임입니다."),
-
+    ALREADY_EXIST_SCRAP_EXCEPTION(HttpStatus.CONFLICT, "이미 스크랩 되었습니다."),
     /*
     SERVER_ERROR
      */
@@ -33,4 +31,8 @@ public enum ErrorStatus {
 
     private final HttpStatus httpStatus;
     private final String message;
+
+    public int getHttpStatusCode(){
+        return httpStatus.value();
+    }
 }

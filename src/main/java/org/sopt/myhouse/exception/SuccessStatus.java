@@ -12,6 +12,10 @@ public enum SuccessStatus {
     user
      */
 //    SIGNUP_SUCCESS(HttpStatus.CREATED, "회원가입이 완료되었습니다."),
+    /*
+    scrap
+     */
+     SCRAP_SUCCESS(HttpStatus.CREATED, "스크랩이 완료되었습니다")
 ;
 
     private final HttpStatus httpStatus;
