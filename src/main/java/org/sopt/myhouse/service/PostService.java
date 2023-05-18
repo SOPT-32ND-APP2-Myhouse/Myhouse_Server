@@ -8,6 +8,7 @@ import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.repository.ScrapRepository;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
 import org.sopt.myhouse.service.dto.response.PostListResponseDto;
+import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,18 @@ public class PostService {
         List<Post> posts = postRepository.getAll();
         for(Post post:posts){
             PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
+            responseDtos.add(responseDto);
+        }
+        return responseDtos;
+    }
+
+    public List<PostPopularResponseDto> getRank(){
+        List<PostPopularResponseDto> responseDtos = new ArrayList<>();
+        List<Post> posts = postRepository.getPostByRank();
+        int i = 1;
+        for(Post post : posts){
+            PostPopularResponseDto responseDto = new PostPopularResponseDto(post.getId(), post.getThumbnail(), post.getTitle(), post.getSubtitle(),i);
+            i++;
             responseDtos.add(responseDto);
         }
         return responseDtos;

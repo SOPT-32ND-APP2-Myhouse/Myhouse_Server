@@ -8,6 +8,7 @@ import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.service.PostService;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
 import org.sopt.myhouse.service.dto.response.PostListResponseDto;
+import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,5 +39,10 @@ public class PostsController {
     @GetMapping("")
     public ApiResponseDto<List<PostListResponseDto>> getOverview(){
         return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview());
+    }
+
+    @GetMapping("/popular")
+    public ApiResponseDto<List<PostPopularResponseDto>> getRank(){
+        return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postService.getRank());
     }
 }

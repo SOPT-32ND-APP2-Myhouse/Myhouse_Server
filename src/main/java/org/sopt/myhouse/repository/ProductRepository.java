@@ -11,4 +11,5 @@ public interface ProductRepository extends Repository<Product, Long> {
 
     @Query("select p from Product p")
     List<Product> getAllProduct();
+
 }
