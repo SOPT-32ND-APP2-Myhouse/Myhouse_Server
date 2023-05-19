@@ -21,6 +21,8 @@ public enum ErrorStatus {
     NO_POST(HttpStatus.NOT_FOUND,"해당 하는 게시물이 없습니다"),
 
     NO_SCRAP(HttpStatus.NOT_FOUND, "해당 스크랩이 없습니다"),
+
+    NO_FOLDER(HttpStatus.NOT_FOUND, "해당 스크랩이 없습니다"),
     /*
     409 CONFLICT
      */

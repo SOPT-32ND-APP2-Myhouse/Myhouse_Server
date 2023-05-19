@@ -46,7 +46,7 @@ public class PostsController {
      */
 
     @GetMapping("")
-    public ApiResponseDto<List<PostListResponseDto>> getOverview(){
+    public ApiResponseDto getOverview(){
         return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview());
     }
 
