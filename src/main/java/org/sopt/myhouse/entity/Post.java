@@ -18,6 +18,7 @@ public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String thumbnail;
+    private String subtitle;
     private String title;
     private String post_category;
     private Date created_date;
