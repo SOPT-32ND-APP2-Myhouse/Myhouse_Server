@@ -1,5 +1,6 @@
 # Myhouse_Server 
 
+
 ## 팀 멤버 및 역할 분담
 
 <table>
@@ -12,7 +13,7 @@
 <tbody>
 <tr>
 <td align="center"><img src = https://github.com/sohyundoh/sohyundoh/assets/79795051/478d604c-af15-469d-98b3-4be51a64ac37 width = 200/></td>
-<td align="center"><img src = https://github.com/sohyundoh/Readme_Check/assets/79795051/5762cdb3-a87a-4554-96bd-457e90d9a97c width = 200/></td>
+<td align="center"><img src=https://github.com/SOPT-32ND-APP2-Myhouse/Myhouse_Server/assets/77230391/c9f34d90-cabc-4417-b34d-b7adcddfbe37 width = 200/></td>
 </tr>
 </tbody>
 <tbody>
@@ -124,5 +125,6 @@ src
 *# cicd : CI/CD 관련 설정*
 
 ## ER-Diagram
-![image](https://github.com/sohyundoh/Readme_Check/assets/79795051/2c9e7124-ba92-40ef-95ed-0ac0552ade29)
+<img width="1121" alt="image" src="https://github.com/SOPT-32ND-APP2-Myhouse/Myhouse_Server/assets/77230391/0f37bb6b-0569-49a2-9fc6-feb11b6e00d7">
+
 
