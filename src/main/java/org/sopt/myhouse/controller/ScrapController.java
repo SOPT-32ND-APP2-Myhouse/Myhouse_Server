@@ -52,11 +52,11 @@ public class ScrapController {
 
 
     @GetMapping("/all")
-    public ApiResponseDto getAllScrap(){
+    public ApiResponseDto getAllScrap() {
         FolderDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
-       return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
+        return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
 
-
+    }
 
     @PostMapping("/{folder_id}")
     public ApiResponseDto assignScrapFolder(@PathVariable Long folder_id,
