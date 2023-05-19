@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     private final ProductService productService;
 
+
+
+
     @GetMapping("/home/product")
+
     public ApiResponseDto<List<ProductResponseDto>> showRank(){
         return ApiResponseDto.success(SuccessStatus.GET_RANK_PRODUCT , productService.showRank());
     }
