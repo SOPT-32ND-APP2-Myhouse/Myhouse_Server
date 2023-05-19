@@ -33,7 +33,7 @@ public class GetPostDetailDto {
         this.like_count = post.getLike_count();
         this.scrap_count = post.getScrap_count();
         this.comment_count = post.getComment_count();
-        this.view_count = post.getComment_count();
+        this.view_count = post.getViews_count();
     }
 
 
