@@ -6,9 +6,9 @@ import org.sopt.myhouse.controller.dto.response.HomeDto;
 import org.sopt.myhouse.entity.Post;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
-import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.service.PostService;
-import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
+import org.sopt.myhouse.service.ProductService;
+import org.sopt.myhouse.service.dto.response.ProductResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +27,10 @@ public class HomeController {
     @Autowired
     private final PostService postService;
 
+    @Autowired
+    private final ProductService productService;
+
+
     @GetMapping("/post/recommend")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ApiResponseDto getRecommendPost(){
@@ -41,5 +45,11 @@ public class HomeController {
     @GetMapping("/post/popular")
     public ApiResponseDto getRank(){
         return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postService.getRank());
+    }
+
+
+    @GetMapping("/product")
+    public ApiResponseDto<List<ProductResponseDto>> showRank(){
+        return ApiResponseDto.success(SuccessStatus.GET_RANK_PRODUCT , productService.showRank());
     }
 }
