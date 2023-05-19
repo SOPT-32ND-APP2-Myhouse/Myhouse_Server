@@ -1,7 +1,9 @@
 package org.sopt.myhouse.service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
@@ -44,13 +46,29 @@ public class ScrapService {
         return Optional.ofNullable(returnValue);
     }
 
-    @Transactional
-    public ScrapDto.GetAllScrapRes getAllScrap(){
-           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap();
-           List<Scrap> what = scrapRepository.findAll();
+//    @Transactional
+//    public ScrapDto.GetAllScrapRes getAllScrap(){
+//           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap();
+//           List<Scrap> what = scrapRepository.findAll();
+//
+//        System.out.println(what);
+//        System.out.println(what.size());
+//            return new ScrapDto.GetAllScrapRes(scraps);
+//    }
 
-        System.out.println(what);
-        System.out.println(what.size());
-            return new ScrapDto.GetAllScrapRes(scraps);
+
+    public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ){
+        Folder folder = folderRepository.findById(requestDto.getFolder_id());
+        log.info("엥? ={}", folderRepository.findById(requestDto.getFolder_id()));
+
+        if (folder==null){
+            log.info("엥? 여기  ={}", folder);
+            return null;
+        }
+        //상의 필요,, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
+        Scrap scrap = Scrap.newInstance(folder, requestDto.getImage_url());
+        Scrap newScrap = scrapRepository.save(scrap);
+        return new ScrapDto.AssignScrapFolderRes(requestDto.getFolder_id(), newScrap.getId(), requestDto.getImage_url());
     }
+
 }

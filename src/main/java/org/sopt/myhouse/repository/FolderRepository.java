@@ -5,4 +5,5 @@ import org.springframework.data.repository.Repository;
 
 public interface FolderRepository extends Repository<Folder, Long> {
     Folder findById(Long folder_id);
+    //optional로 바꾸자!
 }
