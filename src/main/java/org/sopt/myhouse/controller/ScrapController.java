@@ -28,7 +28,7 @@ public class ScrapController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponseDto<Scrap> create(@RequestBody final ScrapRequestDto request) {
+    public ApiResponseDto create(@RequestBody final ScrapRequestDto request) {
         Scrap scrap = scrapService.saveToAll(request.toServiceDto());
         return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrap);
     }

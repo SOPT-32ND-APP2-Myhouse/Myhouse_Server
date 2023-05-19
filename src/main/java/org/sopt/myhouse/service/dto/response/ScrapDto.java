@@ -25,7 +25,7 @@ public class ScrapDto {
         public GetAllScrapRes(ArrayList<Scrap> scraps){
             List<ScrapDto> scrapDtos = scraps.stream().map(scrap -> new ScrapDto(scrap)).collect(Collectors.toList());
             this.scrap_folders = scraps.stream().map(scrap -> new FolderDto(
-                    scrap.getFolder_id().getId(), scrap.getFolder_id().getTitle(), scrapDtos)
+                    scrap.getFolder().getId(), scrap.getFolder().getTitle(), scrapDtos)
             ).collect(Collectors.toList());
         }
     }
