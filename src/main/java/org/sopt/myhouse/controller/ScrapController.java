@@ -1,6 +1,7 @@
 package org.sopt.myhouse.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
 import org.sopt.myhouse.controller.dto.request.ScrapRequestDto;
 import org.sopt.myhouse.entity.Scrap;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import static org.sopt.myhouse.common.advice.dto.ApiResponseDto.success;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/scrap")
@@ -38,7 +40,10 @@ public class ScrapController {
            return success(SuccessStatus.DELETE_SCRAP_SUCCESS, id);
        }
        return ApiResponseDto.error(ErrorStatus.NO_SCRAP);
+
+
     }
+
 
     @GetMapping("/all")
     public ApiResponseDto getAllScrap(){
