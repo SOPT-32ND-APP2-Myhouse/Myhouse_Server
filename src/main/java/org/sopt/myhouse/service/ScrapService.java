@@ -1,6 +1,7 @@
 package org.sopt.myhouse.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScrapService {
@@ -32,11 +34,14 @@ public class ScrapService {
 
     @Transactional
     public Optional<Long> deleteScrap(Long scrap_id) {
+        Long returnValue = null;
         if (scrapRepository.findById(scrap_id).isPresent()) {
-            Long id = scrapRepository.deleteById(scrap_id);
-            return Optional.of(id);
-        } else
-            return Optional.empty();
+            scrapRepository.deleteById(scrap_id);
+            returnValue = (scrap_id);
+        }
+        log.info("deleteService" );
+        log.info("return value = {}", returnValue );
+        return Optional.ofNullable(returnValue);
     }
 
     @Transactional

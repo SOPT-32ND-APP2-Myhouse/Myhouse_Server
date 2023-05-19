@@ -25,6 +25,10 @@ public class PostsController {
     @Autowired
     private final PostService postService;
 
+    /**
+     * @API - [GET] 게시글 상세 보기
+     * @return
+     */
     @GetMapping("/{post_id}")
     public ApiResponseDto getPostDetail(@PathVariable("post_id") Long post_id){
         GetPostDetailDto getPostDetailDto = postService.getPostDetail(post_id);
@@ -36,11 +40,16 @@ public class PostsController {
     }
 
 
+    /**
+     * @API - [GET] 둘러보기
+     * @return
+     */
 
     @GetMapping("")
     public ApiResponseDto<List<PostListResponseDto>> getOverview(){
         return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview());
     }
+
 
     @GetMapping("/popular")
     public ApiResponseDto<List<PostPopularResponseDto>> getRank(){
