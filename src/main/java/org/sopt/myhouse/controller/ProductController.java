@@ -18,7 +18,11 @@ public class ProductController {
     @Autowired
     private final ProductService productService;
 
-    @GetMapping("")
+
+
+
+    @GetMapping("/home/product")
+
     public ApiResponseDto<List<ProductResponseDto>> showRank(){
         return ApiResponseDto.success(SuccessStatus.GET_RANK_PRODUCT , productService.showRank());
     }
