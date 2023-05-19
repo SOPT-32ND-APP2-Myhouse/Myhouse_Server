@@ -8,5 +8,8 @@ import java.util.ArrayList;
 public interface FolderRepository extends Repository<Folder, Long> {
     Folder findById(Long folder_id);
 
+
     ArrayList<Folder> findAll();
+    //optional로 바꾸자!
+
 }

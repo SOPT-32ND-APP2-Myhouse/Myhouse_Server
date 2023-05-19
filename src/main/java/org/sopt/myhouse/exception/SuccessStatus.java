@@ -37,7 +37,15 @@ public enum SuccessStatus {
     GET_OVERALL_POSTS_SUCCESS(HttpStatus.ACCEPTED, "모든 게시물 조회에 성공하였습니다."),
     GET_POSTS_RANK_SUCCESS(HttpStatus.ACCEPTED, "인기 게시물 조회에 성공하였습니다."),
 
-    GET_RANK_PRODUCT(HttpStatus.ACCEPTED, "베스트 상품 조회에 성공하였습니다.");
+    GET_RANK_PRODUCT(HttpStatus.ACCEPTED, "베스트 상품 조회에 성공하였습니다."),
+
+
+    /*
+    scrap
+     */
+
+    ASSIGN_SCRAP_FOLDER(HttpStatus.CREATED,"폴더에 스크랩을 성공하였습니다" );
+
     private final HttpStatus httpStatus;
     private final String message;
 }

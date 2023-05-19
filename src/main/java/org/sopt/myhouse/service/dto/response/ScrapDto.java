@@ -14,6 +14,7 @@ public class ScrapDto {
 
 
 
+
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
@@ -31,5 +32,16 @@ public class ScrapDto {
         private ArrayList<PerScrapDto> scraps;
     }
 
+        @NoArgsConstructor
+        @AllArgsConstructor
+        @Getter
+        public static class AssignScrapFolderRes{
+            private Long folder_id;
+            private Long scrap_id;
+            private String image_url;
+        }
+    }
 
-}
+
+
+

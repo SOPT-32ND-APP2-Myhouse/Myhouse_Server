@@ -1,9 +1,11 @@
 package org.sopt.myhouse.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
 import org.sopt.myhouse.controller.dto.request.ScrapRequestDto;
+import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.Scrap;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
@@ -31,7 +33,7 @@ public class ScrapController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponseDto<Scrap> create(@RequestBody final ScrapRequestDto request) {
+    public ApiResponseDto create(@RequestBody final ScrapRequestDto request) {
         Scrap scrap = scrapService.saveToAll(request.toServiceDto());
         return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrap);
     }
@@ -48,9 +50,27 @@ public class ScrapController {
     }
 
 
+
     @GetMapping("/all")
     public ApiResponseDto getAllScrap(){
         FolderDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
        return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
+
+
+
+    @PostMapping("/{folder_id}")
+    public ApiResponseDto assignScrapFolder(@PathVariable Long folder_id,
+                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto){
+        AssignFolderRequestDto requestDto = new AssignFolderRequestDto(folder_id, assignFolderRequestDto.getImage_url());
+
+        ScrapDto.AssignScrapFolderRes responseDto = scrapService.assignScrapToFolder(requestDto);
+        if (responseDto == null){
+            
+            return ApiResponseDto.error(ErrorStatus.NO_FOLDER);
+        }
+        return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, responseDto);
+
+
     }
+
 }

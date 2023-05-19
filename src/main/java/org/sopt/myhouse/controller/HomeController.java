@@ -39,7 +39,7 @@ public class HomeController {
         return ApiResponseDto.success(SuccessStatus.GET_RECOMMEND_POST_SUCCESS,response);
     }
     @GetMapping("/post/popular")
-    public ApiResponseDto<List<PostPopularResponseDto>> getRank(){
+    public ApiResponseDto getRank(){
         return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postService.getRank());
     }
 }
