@@ -50,9 +50,4 @@ public class PostsController {
         return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview());
     }
 
-
-    @GetMapping("/popular")
-    public ApiResponseDto<List<PostPopularResponseDto>> getRank(){
-        return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postService.getRank());
-    }
 }
