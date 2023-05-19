@@ -7,9 +7,9 @@ assignees: ''
 
 ---
 
-🍀 Issue
+## 🍀 Issue
 설명을 작성해주세요.
 
-✔️ To do
+## ✔️ To do
  todo1
  todo2
