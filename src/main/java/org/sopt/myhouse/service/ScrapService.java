@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
+import org.sopt.myhouse.service.dto.response.FolderDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,12 +47,36 @@ public class ScrapService {
     }
 
     @Transactional
-    public ScrapDto.GetAllScrapRes getAllScrap(){
+    public  FolderDto.FoldersRes getAllScrap(){
+            ArrayList<Folder> getFolders = folderRepository.findAll();
            ArrayList<Scrap> scraps =  scrapRepository.getAllScrap();
-           List<Scrap> what = scrapRepository.findAll();
+           HashMap<Long, ArrayList<ScrapDto.PerScrapDto>> folders = new HashMap<Long, ArrayList<ScrapDto.PerScrapDto>>();
 
-        System.out.println(what);
-        System.out.println(what.size());
-            return new ScrapDto.GetAllScrapRes(scraps);
+           Long i = 1L;
+           for (i=1L; i<5; i++){
+               folders.put(i, new ArrayList<ScrapDto.PerScrapDto>());
+           }
+
+            for (Scrap scrap:scraps
+             ) {
+                Long folderId = scrap.getFolder().getId();
+                ArrayList <ScrapDto.PerScrapDto> scrapList = folders.get(folderId);
+                scrapList.add(new ScrapDto.PerScrapDto(scrap.getId(),scrap.getImage_url()));
+                folders.put(folderId, scrapList);
+                }
+            // service 반환 Dto
+
+
+            // 각 folder의 Dto
+            ArrayList<ScrapDto.FolderScrapsDto> res = new ArrayList<ScrapDto.FolderScrapsDto>();
+
+            for (Long k = 1L; k<5L; k++) {
+                ScrapDto.FolderScrapsDto folder_scrap = new ScrapDto.FolderScrapsDto(
+                        k,
+                        getFolders.get(Math.toIntExact(k)-1).getTitle(),
+                        folders.get(k));
+                res.add(folder_scrap);
+            }
+            return new FolderDto.FoldersRes(res);
     }
 }

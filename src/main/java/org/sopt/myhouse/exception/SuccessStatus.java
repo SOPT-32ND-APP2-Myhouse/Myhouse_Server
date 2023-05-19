@@ -21,6 +21,7 @@ public enum SuccessStatus {
 
      GET_POST_DETAIL_SUCCESS(HttpStatus.OK, "게시글 조회에 성공하였습니다"),
 
+    GET_ALL_FOLDER(HttpStatus.OK,"모든 폴더 조회가 완료되었습니다."),
 
     /*
     post

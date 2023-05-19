@@ -21,7 +21,7 @@ public interface ScrapRepository extends Repository<Scrap, Long> {
     Long deleteById(Long scrap_id);
 
     // 엔티티 변수명 바꿔야댐
-    @Query("select s from Scrap s")
+    @Query("select s from Scrap s group by s.folder.id, s.id")
     ArrayList<Scrap> getAllScrap();
 
     List<Scrap> findAll();
