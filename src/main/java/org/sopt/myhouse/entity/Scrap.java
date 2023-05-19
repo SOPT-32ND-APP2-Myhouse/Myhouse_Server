@@ -17,15 +17,15 @@ public class Scrap {
 
     @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn (name =  "FOLDER_ID")
-    private Folder folder_id;
+    private Folder folder;
 
     private String image_url;
 
-    private Scrap(Folder folder_id, String image_url){
-        this.folder_id = folder_id;
+    private Scrap(Folder folder, String image_url){
+        this.folder = folder;
         this.image_url = image_url;
     }
-    public static Scrap newInstance(Folder folder_id, String image_url){
-        return  new Scrap(folder_id,image_url);
+    public static Scrap newInstance(Folder folder, String image_url){
+        return  new Scrap(folder,image_url);
     }
 }
