@@ -1,10 +1,11 @@
 package org.sopt.myhouse.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.*;
+import org.sopt.myhouse.exception.ErrorStatus;
+import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 import org.sopt.myhouse.service.dto.response.FolderDto;
@@ -27,11 +28,18 @@ public class ScrapService {
     private final ScrapRepository scrapRepository;
     @Autowired
     private final FolderRepository folderRepository;
+    @Autowired
+    private final ImageRepository imageRepository;
     //모든 폴더에 저장
     @Transactional
-    public Scrap saveToAll(ScrapSaveServiceDto requestDto){
+    public Scrap saveToAll(ScrapSaveServiceDto requestDto) throws NotImageFoundException {
         Long folder_id = 1L;
-        Folder folder = folderRepository.findById(folder_id);
+        Folder folder = folderRepository.findById(folder_id).orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_FOLDER,ErrorStatus.NO_FOLDER.getMessage() ));
+        List<Image> images = imageRepository.findByImageUrl(requestDto.getImage_url()).get();
+        if( images.isEmpty()){
+            throw new NotImageFoundException(ErrorStatus.IMAGE_URL_NOT_FOUND, ErrorStatus.IMAGE_URL_NOT_FOUND.getMessage());
+        };
+        System.out.println(images);
         Scrap newScrap = Scrap.newInstance(folder,requestDto.getImage_url());
         return scrapRepository.save(newScrap);
     }
@@ -84,9 +92,9 @@ public class ScrapService {
     }
 
 
-    public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ){
-        Folder folder = folderRepository.findById(requestDto.getFolder_id());
-
+    public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ) throws NotImageFoundException {
+        Folder folder = folderRepository.findById(requestDto.getFolder_id()).orElseThrow(()-> new NotImageFoundException(ErrorStatus.NO_FOLDER, ErrorStatus.NO_FOLDER.getMessage()));
+        // 이 부분에서 exception 던지는 것을 바꿔줘야할 것 같습니다!
         if (folder==null){
             log.info("엥? 여기  ={}", folder);
             return null;
