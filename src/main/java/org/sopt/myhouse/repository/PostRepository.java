@@ -12,7 +12,7 @@ public interface PostRepository extends Repository<Post, Long> {
 
     @Query("select p from Post p where (p.comment_count + p.like_count + p.scrap_count + p.views_count) = " +
             "(select max(p.comment_count + p.like_count + p.scrap_count + p.views_count) from Post p)")
-    Post recommendPost();
+    Optional<Post> recommendPost();
 
     @Query("select p from Post p")
     Optional<List<Post>> getAll();

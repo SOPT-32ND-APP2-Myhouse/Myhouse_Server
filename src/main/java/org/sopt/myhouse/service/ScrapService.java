@@ -7,11 +7,13 @@ import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 import org.sopt.myhouse.service.dto.response.FolderDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -46,15 +48,10 @@ public class ScrapService {
     }
 
     @Transactional
-    public Optional<Long> deleteScrap(Long scrap_id) {
-        Long returnValue = null;
-        if (scrapRepository.findById(scrap_id).isPresent()) {
-            scrapRepository.deleteById(scrap_id);
-            returnValue = (scrap_id);
-        }
-        log.info("deleteService" );
-        log.info("return value = {}", returnValue );
-        return Optional.ofNullable(returnValue);
+    public Long deleteScrap(Long scrap_id) {
+        scrapRepository.findById(scrap_id).orElseThrow(()-> new NotScrapFoundException(ErrorStatus.NO_SCRAP,ErrorStatus.NO_FOLDER.getMessage()));
+        scrapRepository.deleteById(scrap_id);
+        return scrap_id;
     }
 
 

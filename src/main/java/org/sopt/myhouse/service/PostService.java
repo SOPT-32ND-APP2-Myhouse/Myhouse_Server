@@ -29,8 +29,8 @@ public class PostService {
     @Autowired
     private final ImageRepository imageRepository;
 
-    public Post recommendPost(){
-        return postRepository.recommendPost();
+    public Post recommendPost() throws NotPostFoundException{
+        return postRepository.recommendPost().orElseThrow(()-> new NotPostFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
     }
 
 
