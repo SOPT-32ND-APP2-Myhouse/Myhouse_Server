@@ -13,7 +13,7 @@ public class ImageDto {
 
     public ImageDto(Image image) {
         this.image_id = image.getId();
-        this.image_url = image.getImage_url();
+        this.image_url = image.getImageUrl();
         this.content = image.getComment();
     }
 }

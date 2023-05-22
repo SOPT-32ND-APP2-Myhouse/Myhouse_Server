@@ -3,9 +3,10 @@ package org.sopt.myhouse.service;
 import lombok.RequiredArgsConstructor;
 import org.sopt.myhouse.entity.Image;
 import org.sopt.myhouse.entity.Post;
+import org.sopt.myhouse.exception.ErrorStatus;
+import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.repository.ImageRepository;
 import org.sopt.myhouse.repository.PostRepository;
-import org.sopt.myhouse.repository.ScrapRepository;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
 import org.sopt.myhouse.service.dto.response.PostListResponseDto;
 import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,8 @@ public class PostService {
     @Autowired
     private final PostRepository postRepository ;
 
-    @Autowired final ImageRepository imageRepository;
+    @Autowired
+    private final ImageRepository imageRepository;
 
     public Post recommendPost(){
         return postRepository.recommendPost();
@@ -42,9 +43,9 @@ public class PostService {
     }
 
     //post 둘러보기
-    public List<PostListResponseDto> getOverview(){
+    public List<PostListResponseDto> getOverview() throws NotImageFoundException {
         List<PostListResponseDto> responseDtos = new ArrayList<>();
-        List<Post> posts = postRepository.getAll();
+        List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
         for(Post post:posts){
             PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
             responseDtos.add(responseDto);
@@ -52,9 +53,9 @@ public class PostService {
         return responseDtos;
     }
 
-    public List<PostPopularResponseDto> getRank(){
+    public List<PostPopularResponseDto> getRank() throws NotImageFoundException {
         List<PostPopularResponseDto> responseDtos = new ArrayList<>();
-        List<Post> posts = postRepository.getPostByRank();
+        List<Post> posts = postRepository.getPostByRank().orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
         int i = 1;
         for(Post post : posts){
             PostPopularResponseDto responseDto = new PostPopularResponseDto(post.getId(), post.getThumbnail(), post.getTitle(), post.getSubtitle(),i);

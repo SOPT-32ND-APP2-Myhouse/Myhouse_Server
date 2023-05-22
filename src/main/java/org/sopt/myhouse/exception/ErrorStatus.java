@@ -23,6 +23,13 @@ public enum ErrorStatus {
     NO_SCRAP(HttpStatus.NOT_FOUND, "해당 스크랩이 없습니다"),
 
     NO_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더가 없습니다"),
+
+    NO_PRODUCT(HttpStatus.NOT_FOUND, "해당 상품은 없습니다."),
+    /*
+    404
+    Not Found
+     */
+    IMAGE_URL_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 이미지가 존재하지 않습니다."),
     /*
     409 CONFLICT
      */

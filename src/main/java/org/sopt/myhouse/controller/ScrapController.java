@@ -1,6 +1,5 @@
 package org.sopt.myhouse.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
@@ -9,6 +8,7 @@ import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.Scrap;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
+import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.service.ScrapService;
 import org.sopt.myhouse.service.dto.response.FolderDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import static org.sopt.myhouse.common.advice.dto.ApiResponseDto.success;
 
@@ -33,7 +32,7 @@ public class ScrapController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponseDto create(@RequestBody final ScrapRequestDto request) {
+    public ApiResponseDto create(@RequestBody final ScrapRequestDto request) throws NotImageFoundException {
         Scrap scrap = scrapService.saveToAll(request.toServiceDto());
         return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrap);
     }
