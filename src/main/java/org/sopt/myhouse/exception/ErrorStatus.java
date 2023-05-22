@@ -25,6 +25,7 @@ public enum ErrorStatus {
     NO_FOLDER(HttpStatus.NOT_FOUND, "해당 폴더가 없습니다"),
 
     NO_PRODUCT(HttpStatus.NOT_FOUND, "해당 상품은 없습니다."),
+
     /*
     404
     Not Found

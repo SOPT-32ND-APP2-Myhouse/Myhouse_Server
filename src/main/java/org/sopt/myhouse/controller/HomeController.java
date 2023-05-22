@@ -7,6 +7,7 @@ import org.sopt.myhouse.entity.Post;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotPostFoundException;
 import org.sopt.myhouse.service.PostService;
 import org.sopt.myhouse.service.ProductService;
 import org.sopt.myhouse.service.dto.response.ProductResponseDto;
@@ -33,11 +34,8 @@ public class HomeController {
 
     @GetMapping("/post/recommend")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ApiResponseDto getRecommendPost(){
+    public ApiResponseDto getRecommendPost() throws NotPostFoundException {
         Post post = postService.recommendPost();
-        if (post ==null){
-            return ApiResponseDto.error(ErrorStatus.NO_CONTENT);
-        }
         HomeDto.RecommendDto recommendDto = new HomeDto.RecommendDto(post.getPost_category(),"nickname", post.getId(), post.getThumbnail(), post.getTitle());
         HomeDto.HomeRecommendRes response = new HomeDto.HomeRecommendRes(recommendDto);
         return ApiResponseDto.success(SuccessStatus.GET_RECOMMEND_POST_SUCCESS,response);

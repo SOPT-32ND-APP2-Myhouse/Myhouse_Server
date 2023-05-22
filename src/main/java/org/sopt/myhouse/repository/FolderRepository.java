@@ -10,7 +10,6 @@ public interface FolderRepository extends Repository<Folder, Long> {
     Optional<Folder> findById(Long folder_id);
 
 
-    ArrayList<Folder> findAll();
-    //optional로 바꾸자!
+    Optional<ArrayList<Folder>> findAll();
 
 }

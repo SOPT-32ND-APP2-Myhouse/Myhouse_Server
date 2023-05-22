@@ -8,7 +8,9 @@ import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.Scrap;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
+import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.service.ScrapService;
 import org.sopt.myhouse.service.dto.response.FolderDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
@@ -38,20 +40,13 @@ public class ScrapController {
     }
 
     @DeleteMapping("{scrap_id}")
-    public ApiResponseDto deleteScrap(@PathVariable("scrap_id") Long scrap_id){
-       Optional<Long> id = scrapService.deleteScrap(scrap_id);
-       if (id.isPresent()){
-           return success(SuccessStatus.DELETE_SCRAP_SUCCESS, id);
-       }
-       return ApiResponseDto.error(ErrorStatus.NO_SCRAP);
-
-
+    public ApiResponseDto deleteScrap(@PathVariable("scrap_id") Long scrap_id) throws NotScrapFoundException{
+       return ApiResponseDto.success(SuccessStatus.DELETE_SCRAP_SUCCESS, scrapService.deleteScrap(scrap_id));
     }
 
 
-
     @GetMapping("/all")
-    public ApiResponseDto getAllScrap() {
+    public ApiResponseDto getAllScrap() throws NotFolderFoundException ,NotScrapFoundException{
         FolderDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
         return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
 
@@ -59,15 +54,10 @@ public class ScrapController {
 
     @PostMapping("/{folder_id}")
     public ApiResponseDto assignScrapFolder(@PathVariable Long folder_id,
-                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto){
+                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto)
+    throws NotFolderFoundException{
         AssignFolderRequestDto requestDto = new AssignFolderRequestDto(folder_id, assignFolderRequestDto.getImage_url());
-
-        ScrapDto.AssignScrapFolderRes responseDto = scrapService.assignScrapToFolder(requestDto);
-        if (responseDto == null){
-            
-            return ApiResponseDto.error(ErrorStatus.NO_FOLDER);
-        }
-        return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, responseDto);
+        return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrapService.assignScrapToFolder(requestDto));
 
 
     }

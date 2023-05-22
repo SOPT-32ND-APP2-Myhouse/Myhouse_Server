@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
+import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotPostFoundException;
 import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.service.PostService;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
@@ -30,13 +32,8 @@ public class PostsController {
      * @return
      */
     @GetMapping("/{post_id}")
-    public ApiResponseDto getPostDetail(@PathVariable("post_id") Long post_id){
-        GetPostDetailDto getPostDetailDto = postService.getPostDetail(post_id);
-        //Optional 추가 하고 싶음
-        if (getPostDetailDto == null){
-            return ApiResponseDto.error(ErrorStatus.NO_POST);
-        }
-        return ApiResponseDto.success(SuccessStatus.GET_POST_DETAIL_SUCCESS, getPostDetailDto);
+    public ApiResponseDto getPostDetail(@PathVariable("post_id") Long post_id) throws NotPostFoundException {
+        return ApiResponseDto.success(SuccessStatus.GET_POST_DETAIL_SUCCESS, postService.getPostDetail(post_id));
     }
 
 

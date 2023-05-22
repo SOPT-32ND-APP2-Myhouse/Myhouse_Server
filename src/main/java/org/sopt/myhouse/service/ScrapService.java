@@ -7,11 +7,13 @@ import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 import org.sopt.myhouse.service.dto.response.FolderDto;
 import org.sopt.myhouse.service.dto.response.ScrapDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -46,22 +48,17 @@ public class ScrapService {
     }
 
     @Transactional
-    public Optional<Long> deleteScrap(Long scrap_id) {
-        Long returnValue = null;
-        if (scrapRepository.findById(scrap_id).isPresent()) {
-            scrapRepository.deleteById(scrap_id);
-            returnValue = (scrap_id);
-        }
-        log.info("deleteService" );
-        log.info("return value = {}", returnValue );
-        return Optional.ofNullable(returnValue);
+    public Long deleteScrap(Long scrap_id) {
+        scrapRepository.findById(scrap_id).orElseThrow(()-> new NotScrapFoundException(ErrorStatus.NO_SCRAP,ErrorStatus.NO_FOLDER.getMessage()));
+        scrapRepository.deleteById(scrap_id);
+        return scrap_id;
     }
 
 
     @Transactional
-    public  FolderDto.FoldersRes getAllScrap(){
-            ArrayList<Folder> getFolders = folderRepository.findAll();
-           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap();
+    public  FolderDto.FoldersRes getAllScrap() throws NotFolderFoundException{
+            ArrayList<Folder> getFolders = folderRepository.findAll().orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER,ErrorStatus.NO_FOLDER.getMessage()));
+           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap().orElseThrow(()->new NotScrapFoundException(ErrorStatus.NO_SCRAP, ErrorStatus.NO_SCRAP.getMessage()));
            HashMap<Long, ArrayList<ScrapDto.PerScrapDto>> folders = new HashMap<Long, ArrayList<ScrapDto.PerScrapDto>>();
 
            Long i = 1L;
@@ -96,11 +93,8 @@ public class ScrapService {
     public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ) throws NotImageFoundException {
         Folder folder = folderRepository.findById(requestDto.getFolder_id()).orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER, ErrorStatus.NO_FOLDER.getMessage()));
         // 이 부분에서 exception 던지는 것을 바꿔줘야할 것 같습니다!
-        if (folder==null){
-            log.info("엥? 여기  ={}", folder);
-            return null;
-        }
-        //상의 필요,, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
+
+        //상의 필요, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
         Scrap scrap = Scrap.newInstance(folder, requestDto.getImage_url());
         Scrap newScrap = scrapRepository.save(scrap);
         return new ScrapDto.AssignScrapFolderRes(requestDto.getFolder_id(), newScrap.getId(), requestDto.getImage_url());

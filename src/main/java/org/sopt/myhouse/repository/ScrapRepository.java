@@ -22,7 +22,7 @@ public interface ScrapRepository extends Repository<Scrap, Long> {
 
     // 엔티티 변수명 바꿔야댐
     @Query("select s from Scrap s group by s.folder.id, s.id")
-    ArrayList<Scrap> getAllScrap();
+    Optional<ArrayList<Scrap>> getAllScrap();
 
     List<Scrap> findAll();
 

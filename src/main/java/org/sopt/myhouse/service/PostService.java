@@ -1,10 +1,12 @@
 package org.sopt.myhouse.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.entity.Image;
 import org.sopt.myhouse.entity.Post;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotPostFoundException;
 import org.sopt.myhouse.repository.ImageRepository;
 import org.sopt.myhouse.repository.PostRepository;
 import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -26,26 +29,21 @@ public class PostService {
     @Autowired
     private final ImageRepository imageRepository;
 
-    public Post recommendPost(){
-        return postRepository.recommendPost();
+    public Post recommendPost() throws NotPostFoundException{
+        return postRepository.recommendPost().orElseThrow(()-> new NotPostFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
     }
 
-    //Optional 추가하고 싶어!
-    public GetPostDetailDto getPostDetail(Long post_id) {
-        Post post = postRepository.findById(post_id);
-        if (post == null){
-            return null;
-        } else{
-            ArrayList<Image> images = imageRepository.findByPostId(post_id);
-            return new GetPostDetailDto(post,images);
-        }
 
+    public GetPostDetailDto getPostDetail(Long post_id) {
+        Post post = postRepository.findById(post_id).orElseThrow(()->new NotPostFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
+        ArrayList<Image> images = imageRepository.findByPostId(post_id);
+        return new GetPostDetailDto(post,images);
     }
 
     //post 둘러보기
     public List<PostListResponseDto> getOverview() throws NotImageFoundException {
         List<PostListResponseDto> responseDtos = new ArrayList<>();
-        List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
+        List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.IMAGE_URL_NOT_FOUND, ErrorStatus.IMAGE_URL_NOT_FOUND.getMessage()));
         for(Post post:posts){
             PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
             responseDtos.add(responseDto);
