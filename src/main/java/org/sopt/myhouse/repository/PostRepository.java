@@ -15,8 +15,9 @@ public interface PostRepository extends Repository<Post, Long> {
     Post recommendPost();
 
     @Query("select p from Post p")
-    List<Post> getAll();
+    Optional<List<Post>> getAll();
 
     @Query("select p from Post p order by p.comment_count + p.like_count + p.views_count ")
-    List<Post> getPostByRank();
+    Optional<List<Post>> getPostByRank();
+
 }
