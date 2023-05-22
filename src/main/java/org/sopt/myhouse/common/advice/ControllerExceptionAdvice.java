@@ -5,6 +5,7 @@ import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
+import org.sopt.myhouse.exception.model.NotPostFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,5 +34,11 @@ public class ControllerExceptionAdvice {
     @ExceptionHandler(NotFolderFoundException.class)
     protected ApiResponseDto handleNotFolderException(final NotFolderFoundException e){
         return ApiResponseDto.error(ErrorStatus.NO_FOLDER);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotPostFoundException.class)
+    protected ApiResponseDto handlerPostNotFoundException(final NotPostFoundException e ){
+        return ApiResponseDto.error(ErrorStatus.NO_POST);
     }
 }

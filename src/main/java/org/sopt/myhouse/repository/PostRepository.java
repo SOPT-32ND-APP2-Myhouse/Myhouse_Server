@@ -7,7 +7,7 @@ import org.springframework.data.repository.Repository;
 import java.util.*;
 
 public interface PostRepository extends Repository<Post, Long> {
-    Post findById(Long post_id);
+    Optional<Post> findById(Long post_id);
 
 
     @Query("select p from Post p where (p.comment_count + p.like_count + p.scrap_count + p.views_count) = " +
