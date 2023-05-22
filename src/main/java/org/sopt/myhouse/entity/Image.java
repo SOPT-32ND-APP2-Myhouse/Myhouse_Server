@@ -18,6 +18,8 @@ public class Image {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID")
     private Post post;
+    @Column
     private String comment;
-    private String image_url;
+    @Column
+    private String imageUrl;
 }
