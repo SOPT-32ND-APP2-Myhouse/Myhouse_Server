@@ -8,6 +8,7 @@ import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.Scrap;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
+import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.service.ScrapService;
@@ -45,7 +46,7 @@ public class ScrapController {
 
 
     @GetMapping("/all")
-    public ApiResponseDto getAllScrap() {
+    public ApiResponseDto getAllScrap() throws NotFolderFoundException ,NotScrapFoundException{
         FolderDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
         return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
 
@@ -53,15 +54,10 @@ public class ScrapController {
 
     @PostMapping("/{folder_id}")
     public ApiResponseDto assignScrapFolder(@PathVariable Long folder_id,
-                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto){
+                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto)
+    throws NotFolderFoundException{
         AssignFolderRequestDto requestDto = new AssignFolderRequestDto(folder_id, assignFolderRequestDto.getImage_url());
-
-        ScrapDto.AssignScrapFolderRes responseDto = scrapService.assignScrapToFolder(requestDto);
-        if (responseDto == null){
-            
-            return ApiResponseDto.error(ErrorStatus.NO_FOLDER);
-        }
-        return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, responseDto);
+        return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrapService.assignScrapToFolder(requestDto));
 
 
     }

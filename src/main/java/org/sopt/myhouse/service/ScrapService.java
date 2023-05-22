@@ -56,9 +56,9 @@ public class ScrapService {
 
 
     @Transactional
-    public  FolderDto.FoldersRes getAllScrap(){
-            ArrayList<Folder> getFolders = folderRepository.findAll();
-           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap();
+    public  FolderDto.FoldersRes getAllScrap() throws NotFolderFoundException{
+            ArrayList<Folder> getFolders = folderRepository.findAll().orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER,ErrorStatus.NO_FOLDER.getMessage()));
+           ArrayList<Scrap> scraps =  scrapRepository.getAllScrap().orElseThrow(()->new NotScrapFoundException(ErrorStatus.NO_SCRAP, ErrorStatus.NO_SCRAP.getMessage()));
            HashMap<Long, ArrayList<ScrapDto.PerScrapDto>> folders = new HashMap<Long, ArrayList<ScrapDto.PerScrapDto>>();
 
            Long i = 1L;
@@ -93,11 +93,8 @@ public class ScrapService {
     public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ) throws NotImageFoundException {
         Folder folder = folderRepository.findById(requestDto.getFolder_id()).orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER, ErrorStatus.NO_FOLDER.getMessage()));
         // 이 부분에서 exception 던지는 것을 바꿔줘야할 것 같습니다!
-        if (folder==null){
-            log.info("엥? 여기  ={}", folder);
-            return null;
-        }
-        //상의 필요,, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
+
+        //상의 필요, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
         Scrap scrap = Scrap.newInstance(folder, requestDto.getImage_url());
         Scrap newScrap = scrapRepository.save(scrap);
         return new ScrapDto.AssignScrapFolderRes(requestDto.getFolder_id(), newScrap.getId(), requestDto.getImage_url());

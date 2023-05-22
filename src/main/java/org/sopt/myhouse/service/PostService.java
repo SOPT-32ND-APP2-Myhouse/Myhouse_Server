@@ -43,7 +43,7 @@ public class PostService {
     //post 둘러보기
     public List<PostListResponseDto> getOverview() throws NotImageFoundException {
         List<PostListResponseDto> responseDtos = new ArrayList<>();
-        List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
+        List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.IMAGE_URL_NOT_FOUND, ErrorStatus.IMAGE_URL_NOT_FOUND.getMessage()));
         for(Post post:posts){
             PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
             responseDtos.add(responseDto);
