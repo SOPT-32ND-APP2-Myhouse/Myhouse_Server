@@ -2,6 +2,7 @@ package org.sopt.myhouse.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
+import org.sopt.myhouse.controller.dto.response.OverviewDto;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
@@ -44,7 +45,8 @@ public class PostsController {
 
     @GetMapping("")
     public ApiResponseDto getOverview(){
-        return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview());
+        OverviewDto.PostOverviewDto postOverviewDto = new OverviewDto.PostOverviewDto(postService.getOverview());
+        return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postOverviewDto );
     }
 
 }
