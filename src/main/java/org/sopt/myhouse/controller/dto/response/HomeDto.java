@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.*;
-import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
+import org.sopt.myhouse.service.dto.response.PostServiceDto;
 import org.sopt.myhouse.service.dto.response.ProductResponseDto;
 
 
@@ -36,7 +36,7 @@ public class HomeDto {
     @AllArgsConstructor
     @NoArgsConstructor
     static public class PostPopularDto{
-        private List<PostPopularResponseDto> postPopularResponseDto;
+        private List<PostServiceDto.PostPopularResponseDto> postPopularResponseDto;
     }
 
     @Getter
