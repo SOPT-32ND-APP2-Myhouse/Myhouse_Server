@@ -7,7 +7,7 @@ import org.sopt.myhouse.service.dto.response.PostServiceDto;
 
 import java.util.List;
 
-public class OverviewDto {
+public class OverviewControllerDto {
 
     @Getter
     @AllArgsConstructor
