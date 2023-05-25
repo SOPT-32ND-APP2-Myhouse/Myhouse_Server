@@ -9,9 +9,7 @@ import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.exception.model.NotPostFoundException;
 import org.sopt.myhouse.repository.ImageRepository;
 import org.sopt.myhouse.repository.PostRepository;
-import org.sopt.myhouse.service.dto.response.GetPostDetailDto;
-import org.sopt.myhouse.service.dto.response.PostListResponseDto;
-import org.sopt.myhouse.service.dto.response.PostPopularResponseDto;
+import org.sopt.myhouse.service.dto.response.PostServiceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,29 +32,29 @@ public class PostService {
     }
 
 
-    public GetPostDetailDto getPostDetail(Long post_id) {
+    public PostServiceDto.GetPostDetailDto getPostDetail(Long post_id) {
         Post post = postRepository.findById(post_id).orElseThrow(()->new NotPostFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
         ArrayList<Image> images = imageRepository.findByPostId(post_id);
-        return new GetPostDetailDto(post,images);
+        return new PostServiceDto.GetPostDetailDto(post,images);
     }
 
     //post 둘러보기
-    public List<PostListResponseDto> getOverview() throws NotImageFoundException {
-        List<PostListResponseDto> responseDtos = new ArrayList<>();
+    public List<PostServiceDto.PostListResponseDto> getOverview() throws NotImageFoundException {
+        List<PostServiceDto.PostListResponseDto> responseDtos = new ArrayList<>();
         List<Post> posts = postRepository.getAll().orElseThrow(() -> new NotImageFoundException(ErrorStatus.IMAGE_URL_NOT_FOUND, ErrorStatus.IMAGE_URL_NOT_FOUND.getMessage()));
         for(Post post:posts){
-            PostListResponseDto responseDto = new PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
+            PostServiceDto.PostListResponseDto responseDto = new PostServiceDto.PostListResponseDto(post.getId(), post.getThumbnail(), post.getTitle());
             responseDtos.add(responseDto);
         }
         return responseDtos;
     }
 
-    public List<PostPopularResponseDto> getRank() throws NotImageFoundException {
-        List<PostPopularResponseDto> responseDtos = new ArrayList<>();
+    public List<PostServiceDto.PostPopularResponseDto> getRank() throws NotImageFoundException {
+        List<PostServiceDto.PostPopularResponseDto> responseDtos = new ArrayList<>();
         List<Post> posts = postRepository.getPostByRank().orElseThrow(() -> new NotImageFoundException(ErrorStatus.NO_POST, ErrorStatus.NO_POST.getMessage()));
         int i = 1;
         for(Post post : posts){
-            PostPopularResponseDto responseDto = new PostPopularResponseDto(post.getId(), post.getThumbnail(), post.getTitle(), post.getSubtitle(),i);
+            PostServiceDto.PostPopularResponseDto responseDto = new PostServiceDto.PostPopularResponseDto(post.getId(), post.getThumbnail(), post.getTitle(), post.getSubtitle(),i);
             i++;
             responseDtos.add(responseDto);
         }

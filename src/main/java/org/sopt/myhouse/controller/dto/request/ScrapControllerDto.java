@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
 
 
-public class ScrapDto {
+public class ScrapControllerDto {
 
     @AllArgsConstructor
     @Getter
