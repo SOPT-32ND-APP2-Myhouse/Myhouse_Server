@@ -4,13 +4,10 @@ package org.sopt.myhouse.service.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sopt.myhouse.entity.Scrap;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class ScrapDto {
+public class ScrapServiceDto {
 
 
 

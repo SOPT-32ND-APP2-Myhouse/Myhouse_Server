@@ -3,22 +3,19 @@ package org.sopt.myhouse.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sopt.myhouse.common.advice.dto.ApiResponseDto;
-import org.sopt.myhouse.controller.dto.request.ScrapRequestDto;
-import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
+import org.sopt.myhouse.controller.dto.request.FolderControllerDto;
+import org.sopt.myhouse.controller.dto.request.ScrapControllerDto;
 import org.sopt.myhouse.entity.Scrap;
-import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.SuccessStatus;
 import org.sopt.myhouse.exception.model.NotFolderFoundException;
 import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.service.ScrapService;
-import org.sopt.myhouse.service.dto.response.FolderDto;
-import org.sopt.myhouse.service.dto.response.ScrapDto;
+import org.sopt.myhouse.service.dto.response.FolderServiceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import static org.sopt.myhouse.common.advice.dto.ApiResponseDto.success;
 
 @Slf4j
@@ -34,7 +31,7 @@ public class ScrapController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponseDto create(@RequestBody final ScrapRequestDto request) throws NotImageFoundException {
+    public ApiResponseDto create(@RequestBody final ScrapControllerDto.ScrapRequestDto request) throws NotImageFoundException {
         Scrap scrap = scrapService.saveToAll(request.toServiceDto());
         return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrap);
     }
@@ -47,19 +44,17 @@ public class ScrapController {
 
     @GetMapping("/all")
     public ApiResponseDto getAllScrap() throws NotFolderFoundException ,NotScrapFoundException{
-        FolderDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
+        FolderServiceDto.FoldersRes getAllScrapRes = scrapService.getAllScrap();
         return success(SuccessStatus.GET_ALL_FOLDER, getAllScrapRes);
 
     }
 
     @PostMapping("/{folder_id}")
     public ApiResponseDto assignScrapFolder(@PathVariable Long folder_id,
-                                            @RequestBody AssignFolderRequestDto assignFolderRequestDto)
+                                            @RequestBody FolderControllerDto.AssignFolderRequestDto assignFolderRequestDto)
     throws NotFolderFoundException{
-        AssignFolderRequestDto requestDto = new AssignFolderRequestDto(folder_id, assignFolderRequestDto.getImage_url());
+        FolderControllerDto.AssignFolderRequestDto requestDto = new FolderControllerDto.AssignFolderRequestDto(folder_id, assignFolderRequestDto.getImage_url());
         return ApiResponseDto.success(SuccessStatus.SCRAP_SUCCESS, scrapService.assignScrapToFolder(requestDto));
-
-
     }
 
 }

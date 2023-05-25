@@ -2,7 +2,6 @@ package org.sopt.myhouse.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sopt.myhouse.controller.dto.request.AssignFolderRequestDto;
 import org.sopt.myhouse.entity.*;
 import org.sopt.myhouse.exception.ErrorStatus;
 import org.sopt.myhouse.exception.model.NotFolderFoundException;
@@ -10,17 +9,15 @@ import org.sopt.myhouse.exception.model.NotImageFoundException;
 import org.sopt.myhouse.exception.model.NotScrapFoundException;
 import org.sopt.myhouse.repository.*;
 import org.sopt.myhouse.service.dto.request.ScrapSaveServiceDto;
-import org.sopt.myhouse.service.dto.response.FolderDto;
-import org.sopt.myhouse.service.dto.response.ScrapDto;
+import org.sopt.myhouse.service.dto.response.FolderServiceDto;
+import org.sopt.myhouse.service.dto.response.ScrapServiceDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import org.sopt.myhouse.controller.dto.request.FolderControllerDto;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -56,48 +53,48 @@ public class ScrapService {
 
 
     @Transactional
-    public  FolderDto.FoldersRes getAllScrap() throws NotFolderFoundException{
+    public  FolderServiceDto.FoldersRes getAllScrap() throws NotFolderFoundException{
             ArrayList<Folder> getFolders = folderRepository.findAll().orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER,ErrorStatus.NO_FOLDER.getMessage()));
            ArrayList<Scrap> scraps =  scrapRepository.getAllScrap().orElseThrow(()->new NotScrapFoundException(ErrorStatus.NO_SCRAP, ErrorStatus.NO_SCRAP.getMessage()));
-           HashMap<Long, ArrayList<ScrapDto.PerScrapDto>> folders = new HashMap<Long, ArrayList<ScrapDto.PerScrapDto>>();
+           HashMap<Long, ArrayList<ScrapServiceDto.PerScrapDto>> folders = new HashMap<Long, ArrayList<ScrapServiceDto.PerScrapDto>>();
 
            Long i = 1L;
            for (i=1L; i<5; i++){
-               folders.put(i, new ArrayList<ScrapDto.PerScrapDto>());
+               folders.put(i, new ArrayList<ScrapServiceDto.PerScrapDto>());
            }
 
             for (Scrap scrap:scraps
              ) {
                 Long folderId = scrap.getFolder().getId();
-                ArrayList <ScrapDto.PerScrapDto> scrapList = folders.get(folderId);
-                scrapList.add(new ScrapDto.PerScrapDto(scrap.getId(),scrap.getImage_url()));
+                ArrayList <ScrapServiceDto.PerScrapDto> scrapList = folders.get(folderId);
+                scrapList.add(new ScrapServiceDto.PerScrapDto(scrap.getId(),scrap.getImage_url()));
                 folders.put(folderId, scrapList);
                 }
             // service 반환 Dto
 
 
             // 각 folder의 Dto
-            ArrayList<ScrapDto.FolderScrapsDto> res = new ArrayList<ScrapDto.FolderScrapsDto>();
+            ArrayList<ScrapServiceDto.FolderScrapsDto> res = new ArrayList<ScrapServiceDto.FolderScrapsDto>();
 
             for (Long k = 1L; k<5L; k++) {
-                ScrapDto.FolderScrapsDto folder_scrap = new ScrapDto.FolderScrapsDto(
+                ScrapServiceDto.FolderScrapsDto folder_scrap = new ScrapServiceDto.FolderScrapsDto(
                         k,
                         getFolders.get(Math.toIntExact(k)-1).getTitle(),
                         folders.get(k));
                 res.add(folder_scrap);
             }
-            return new FolderDto.FoldersRes(res);
+            return new FolderServiceDto.FoldersRes(res);
     }
 
 
-    public ScrapDto.AssignScrapFolderRes assignScrapToFolder(AssignFolderRequestDto requestDto ) throws NotImageFoundException {
+    public ScrapServiceDto.AssignScrapFolderRes assignScrapToFolder(FolderControllerDto.AssignFolderRequestDto requestDto ) throws NotImageFoundException {
         Folder folder = folderRepository.findById(requestDto.getFolder_id()).orElseThrow(()-> new NotFolderFoundException(ErrorStatus.NO_FOLDER, ErrorStatus.NO_FOLDER.getMessage()));
         // 이 부분에서 exception 던지는 것을 바꿔줘야할 것 같습니다!
 
         //상의 필요, 굳이 folder객체를 넣어야 할까?  -> folder 객체 찾는데도 시간 걸림
         Scrap scrap = Scrap.newInstance(folder, requestDto.getImage_url());
         Scrap newScrap = scrapRepository.save(scrap);
-        return new ScrapDto.AssignScrapFolderRes(requestDto.getFolder_id(), newScrap.getId(), requestDto.getImage_url());
+        return new ScrapServiceDto.AssignScrapFolderRes(requestDto.getFolder_id(), newScrap.getId(), requestDto.getImage_url());
 
     }
 
