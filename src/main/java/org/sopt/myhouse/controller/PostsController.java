@@ -37,8 +37,7 @@ public class PostsController {
 
     @GetMapping("")
     public ApiResponseDto getOverview(){
-        OverviewControllerDto.PostOverviewDto postOverviewDto = new OverviewControllerDto.PostOverviewDto(postService.getOverview());
-        return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postOverviewDto );
+        return ApiResponseDto.success(SuccessStatus.GET_OVERALL_POSTS_SUCCESS, postService.getOverview() );
     }
 
 }

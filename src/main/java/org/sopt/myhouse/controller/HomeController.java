@@ -38,14 +38,12 @@ public class HomeController {
     }
     @GetMapping("/post/popular")
     public ApiResponseDto getRank() throws NotImageFoundException {
-        HomeControllerDto.PostPopularDto postPopularDto = new HomeControllerDto.PostPopularDto(postService.getRank());
-        return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postPopularDto);
+        return ApiResponseDto.success(SuccessStatus.GET_POSTS_RANK_SUCCESS ,postService.getRank());
     }
 
 
     @GetMapping("/product")
     public ApiResponseDto showRank() throws NotImageFoundException {
-        HomeControllerDto.ProductPopularDto productPopularDto = new HomeControllerDto.ProductPopularDto(productService.showRank());
-        return ApiResponseDto.success(SuccessStatus.GET_RANK_PRODUCT , productPopularDto);
+        return ApiResponseDto.success(SuccessStatus.GET_RANK_PRODUCT , productService.showRank());
     }
 }
