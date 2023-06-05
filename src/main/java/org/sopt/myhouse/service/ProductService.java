@@ -24,9 +24,11 @@ public class ProductService {
         Collections.sort(products, Comparator.comparing(Product::getRate));
         int i = 1;
         for (Product product : products) {
-            ProductServiceDto.ProductResponseDto productResponseDto = new ProductServiceDto.ProductResponseDto(product.getCategory(), product.getImage_url(), product.getTitle(), product.getDiscount(), product.getPrice(), product.getRate(), product.getReviews_count(),i);
-            i++;
+            ProductServiceDto.ProductResponseDto productResponseDto = new ProductServiceDto.ProductResponseDto(product.getCategory(), product.getImage_url(), product.getTitle(), product.getDiscount(), product.getPrice(), product.getRate(), product.getReviews_count(),i++);
             result.add(productResponseDto);
+            if(i == 4){
+                break;
+            }
         }
         return result;
     }
