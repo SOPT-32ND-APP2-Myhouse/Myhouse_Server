@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.*;
 import org.sopt.myhouse.service.dto.response.PostServiceDto;
-import org.sopt.myhouse.service.dto.response.ProductResponseDto;
+import org.sopt.myhouse.service.dto.response.ProductServiceDto;
 
 
-public class HomeDto {
+public class HomeControllerDto {
 
 
 
@@ -43,6 +43,6 @@ public class HomeDto {
     @AllArgsConstructor
     @NoArgsConstructor
     static public class ProductPopularDto{
-        private List<ProductResponseDto> productResponseDto;
+        private List<ProductServiceDto.ProductResponseDto> productResponseDto;
     }
 }

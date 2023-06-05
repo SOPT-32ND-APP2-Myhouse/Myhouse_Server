@@ -11,6 +11,6 @@ public class ScrapSaveServiceDto {
     private String image_url;
 
     public static ScrapSaveServiceDto of(String image_url){
-        return new ScrapSaveServiceDto(image_url);
+        return new ScrapSaveServiceDto( image_url);
     }
 }
